@@ -1,66 +1,132 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="https://mlksoulfood.com/" target="_blank"><img src="https://mlksoulfood.com/uploads/website-images/logo-2024-02-25-10-28-49-9781.png" width="400" alt="MLK Soul Food"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Laravel-Based E-Commerce Project
 
-## About Laravel
+## Overview
+This is a Laravel-based e-commerce platform that includes advanced cart functionality, payment methods, product variations, sides, and other dynamic options. The project supports both single and variable products with custom attributes and features like free and premium sides, credits, balance sheet integration, and Stripe payment.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
+### Product Management
+- **Single and Variable Products:** Products can be of type 'single' or 'variable.'
+- **Product Variations:** Variations have fields like `id`, `product_id`, `name`, and `product_price`. Examples include `Chicken Wings (5 Pieces)` and `Chicken Wings (10 Pieces).`
+- **Options Management:** Products support additional options such as:
+  - Flavour
+  - Topping
+  - Dip
+  - Cheese
+  - Veggies
+  - Sauces
+  - Protein
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Cart Functionality
+- **Unique Cart Entries:** Each unique combination of product, variation, and options (e.g., sides, flavour, topping) creates a separate cart item.
+- **Dynamic Pricing:**
+  - Product variation price replaces the base price.
+  - Additional options like sides, protein, and premium add-ons increase the final price dynamically.
+- **Free Sides:** Free sides are limited to two selections per product.
+- **Premium Sides:** Premium sides have no selection limit and their prices are added to the cart.
+- **Dynamic Cart Storage:** The following details are stored in the cart:
+  - Product Name (with Variation)
+  - Quantity
+  - Image
+  - Price (variation + add-ons)
+  - Selected Options (e.g., sides, protein, topping)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Payment
+- **Stripe Payment:** Redirects users to Stripe to complete payment and then navigates to a `thanks` page with `order_id` and `order_phone`.
+- **Credit Payment:** Users can pay using credits if the balance covers the total order amount (including shipping fees).
+  - Balance Sheet displays credit usage.
+  - Validates if the available credit is sufficient.
+- **Total Due Payment:** Users can view dues and make payments via Stripe or credit.
 
-## Learning Laravel
+### Order Management
+- **Order Status:** If `order_status == 6`, the total amount is updated in the user's `credit` field. The sold quantity (`sold_qty`) for each `product_id` is updated in the `products` table.
+- **Dynamic Order Pages:**
+  - Logged-in users see all orders via `url('order')`.
+  - Non-logged-in users can view orders using their phone number (`order_phone`).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Frontend Features
+- **Product Gallery:** Supports multiple images displayed with horizontal scrolling. The gallery includes responsive layouts.
+- **Image Slider:** Uses Owl Carousel for full-width sliders with autoplay, loop, and navigation.
+- **Dynamic Options UI:**
+  - Free sides display as radio buttons or checkboxes based on `sides_type`.
+  - Premium sides are managed with checkboxes.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Backend Management
+- **Admin Functionality:**
+  - Manage products, variations, options, and sides.
+  - Update product information dynamically.
+- **AJAX Integration:** Product options like sides are passed to the cart using AJAX.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Key Tables and Models
+1. **Product Table**
+   - `product_type`: Defines 'single' or 'variable' product type.
+2. **ProductVariation Table**
+   - Handles variations with specific names and prices.
+3. **Order Table**
+   - Stores order details like `order_id`, `order_phone`, `order_status`, and total amounts.
+4. **User Table**
+   - Includes a `credit` field to track user credits.
+5. **OrderProducts Table**
+   - Tracks sold product quantities.
+6. **FreeSide Model**
+   - Manages free side options.
 
-## Laravel Sponsors
+## Installation
+1. **Clone the Repository:**
+   ```bash
+   git clone <repository-link>
+   cd project-directory
+   ```
+2. **Install Dependencies:**
+   ```bash
+   composer install
+   npm install && npm run dev
+   ```
+3. **Setup Database:**
+   - Create a database and configure `.env` file:
+     ```
+     DB_DATABASE=your_database_name
+     DB_USERNAME=your_username
+     DB_PASSWORD=your_password
+     ```
+   - Run migrations:
+     ```bash
+     php artisan migrate --seed
+     ```
+4. **Run the Project:**
+   ```bash
+   php artisan serve
+   ```
+5. **Access Application:**
+   Open `http://localhost:8000` in your browser.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Technologies Used
+- **Backend:** Laravel
+- **Frontend:** Tailwind CSS, jQuery, Owl Carousel
+- **Database:** MySQL
+- **Payment Gateway:** Stripe
+- **Additional Tools:** AJAX, JavaScript
 
-### Premium Partners
+## Usage
+### Stripe Payment Flow
+1. User selects products, variations, and options.
+2. Proceeds to checkout.
+3. Redirects to Stripe for payment.
+4. On successful payment, navigates to a `thanks` page passing:
+   - `order_id`
+   - `order_phone`
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### Credit Payment
+1. User selects credit payment.
+2. Validates if the balance covers the total order.
+3. Deducts the credit from the user's account and proceeds to order completion.
 
-## Contributing
+### Free and Premium Sides
+- Free sides allow a maximum of two options.
+- Premium sides are unlimited and add prices dynamically.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Future Improvements
+- Add support for discounts and coupons.
+- Enhance reporting for orders and credits.
+- Introduce a user dashboard for better order tracking.
