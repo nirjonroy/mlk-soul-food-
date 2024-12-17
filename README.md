@@ -72,34 +72,7 @@ This is a Laravel-based e-commerce platform that includes advanced cart function
 6. **FreeSide Model**
    - Manages free side options.
 
-## Installation
-1. **Clone the Repository:**
-   ```bash
-   git clone <repository-link>
-   cd project-directory
-   ```
-2. **Install Dependencies:**
-   ```bash
-   composer install
-   npm install && npm run dev
-   ```
-3. **Setup Database:**
-   - Create a database and configure `.env` file:
-     ```
-     DB_DATABASE=your_database_name
-     DB_USERNAME=your_username
-     DB_PASSWORD=your_password
-     ```
-   - Run migrations:
-     ```bash
-     php artisan migrate --seed
-     ```
-4. **Run the Project:**
-   ```bash
-   php artisan serve
-   ```
-5. **Access Application:**
-   Open `http://localhost:8000` in your browser.
+
 
 ## Technologies Used
 - **Backend:** Laravel
